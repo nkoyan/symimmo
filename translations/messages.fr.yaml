@@ -1,0 +1,16 @@
+label.title: titre
+label.description: description
+label.surface: surface
+label.rooms: pièces
+label.bedrooms: chambres
+label.floor: étage
+label.price: prix
+label.heat: chauffage
+label.city: ville
+label.address: adresse
+label.postalCode: code postal
+label.sold: vendu
+
+property.new.success: Bien créé avec succès
+property.edit.success: Bien édité avec succès
+property.delete.success: Bien supprimé avec succès
