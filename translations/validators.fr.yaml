@@ -1,0 +1,6 @@
+property.surface.min: La surface doit faire au moins {{ limit }} m².
+property.surface.max: La surface ne doit pas dépasser {{ limit }} m².
+property.title.min_length: Le titre doit faire au moins {{ limit }} caractères.
+property.title.max_length: Le titre ne doit pas dépasser {{ limit }} caractères.
+property.postal_code.invalid: Le code postal est invalide.
+property.title.non_unique: Il existe déjà un bien avec ce titre.

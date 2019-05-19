@@ -6,11 +6,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PropertyRepository")
- * @ORM\Table(options={"auto_increment": 1234})
- * @UniqueEntity(fields={"title"}, message="Il existe déjà un bien avec ce titre.")
+ * @UniqueEntity(fields={"title"}, message="property.title.non_unique")
  */
 class Property
 {
@@ -30,6 +30,12 @@ class Property
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\Length(
+     *     min="5",
+     *     max="255",
+     *     minMessage="property.title.min_length",
+     *     maxMessage="property.title.max_length"
+     * )
      */
     private $title;
 
@@ -46,6 +52,12 @@ class Property
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Range(
+     *     min="10",
+     *     max="400",
+     *     minMessage="property.surface.min",
+     *     maxMessage="property.surface.max"
+     * )
      */
     private $surface;
 
@@ -86,6 +98,7 @@ class Property
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Regex(pattern="/^\d{5}$/", message="property.postal_code.invalid")
      */
     private $postalCode;
 
