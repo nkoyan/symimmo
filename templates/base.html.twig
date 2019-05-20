@@ -10,7 +10,8 @@
 <body>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
     <a class="navbar-brand" href="{{ path('home_index') }}">Agence Immo</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -27,6 +28,14 @@
                    href="{{ path('admin_property_index') }}">Admin</a>
             </li>
         </ul>
+        {% if app.user %}
+            <ul class="navbar-nav justify-content-end">
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{{ path('security_logout') }}">Se déconnecter</a>
+                </li>
+            </ul>
+        {% endif %}
     </div>
 </nav>
 
