@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Property;
+use App\Entity\PropertySearch;
+use App\Form\PropertySearchType;
 use App\Repository\PropertyRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PropertyController extends AbstractController
@@ -12,12 +15,17 @@ class PropertyController extends AbstractController
     /**
      * @Route("/biens", name="property_index")
      */
-    public function index(PropertyRepository $propertyRepository)
+    public function index(PropertyRepository $propertyRepository, Request $request)
     {
-        $properties = $propertyRepository->findAllVisible();
+        $search = new PropertySearch();
+        $form = $this->createForm(PropertySearchType::class, $search);
+        $form->handleRequest($request);
+
+        $properties = $propertyRepository->findLatestPaginated($search, $request->query->get('page', 1));
 
         return $this->render('property/index.html.twig', [
-            'properties' => $properties
+            'properties' => $properties,
+            'form' => $form->createView()
         ]);
     }
 

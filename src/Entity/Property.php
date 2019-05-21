@@ -16,6 +16,8 @@ class Property
 {
     use TimestampableEntity;
 
+    const NUM_ITEMS = 12;
+
     const HEAT = [
         0 => 'Electrique',
         1 => 'Gaz',
