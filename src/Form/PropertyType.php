@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Property;
+use App\Entity\Tag;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -27,6 +29,12 @@ class PropertyType extends AbstractType
             ->add('heat', ChoiceType::class, [
                 'label' => 'label.heat',
                 'choices' => array_flip(Property::HEAT)
+            ])
+            ->add('tags', EntityType::class, [
+                'required' => false,
+                'class' => Tag::class,
+                'choice_label' => 'name',
+                'multiple' => true
             ])
             ->add('city', TextType::class, ['label' => 'label.city'])
             ->add('address', TextType::class, ['label' => 'label.address'])

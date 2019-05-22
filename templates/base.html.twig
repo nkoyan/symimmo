@@ -23,10 +23,16 @@
                 <a class="nav-link{{ current_page == 'property_index' ? ' active' }}"
                    href="{{ path('property_index') }}">Acheter</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link{{ current_page == 'admin_property_index' ? ' active' }}"
-                   href="{{ path('admin_property_index') }}">Admin</a>
-            </li>
+            {% if is_granted('ROLE_ADMIN') %}
+                <li class="nav-item">
+                    <a class="nav-link{{ current_page == 'admin_property_index' ? ' active' }}"
+                       href="{{ path('admin_property_index') }}">Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link{{ current_page == 'admin_tag_index' ? ' active' }}"
+                       href="{{ path('admin_tag_index') }}">Tags</a>
+                </li>
+            {% endif %}
         </ul>
         {% if app.user %}
             <ul class="navbar-nav justify-content-end">
@@ -51,6 +57,9 @@
 </main>
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
+    <script>
+        $('select').select2();
+    </script>
 {% endblock %}
 </body>
 </html>

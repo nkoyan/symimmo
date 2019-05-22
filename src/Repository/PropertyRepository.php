@@ -61,6 +61,19 @@ class PropertyRepository extends ServiceEntityRepository
                 ->setParameter('minSurface', $search->getMinSurface());
         }
 
+        if (!$search->getTags()->isEmpty()) {
+            $query = $query
+                ->innerJoin('p.tags', 't');
+
+            $i = 0;
+            foreach ($search->getTags() as $tag) {
+                $query = $query
+                    ->andWhere("t.id = :tag{$i}")
+                    ->setParameter("tag{$i}", $tag->getId());
+                $i++;
+            }
+        }
+
         return $this->createPaginator(
             $query->getQuery(),
             $page
