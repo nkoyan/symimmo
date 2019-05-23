@@ -9,7 +9,13 @@
         <div class="jumbotron">
             <div class="row">
                 <div class="col-md-8">
-
+                    {% if property.filename %}
+                        <img src="{{ vich_uploader_asset(property, 'imageFile') | imagine_filter('medium') }}" alt=""
+                             class="card-img-top" width="100%" height="auto">
+                    {% else %}
+                        <img src="{{ '/images/properties/empty.jpg' | imagine_filter('medium') }}" alt=""
+                             class="card-img-top" width="100%" height="auto">
+                    {% endif %}
                 </div>
                 <div class="col-md-4">
                     <h1>{{ property.title }}</h1>
@@ -21,8 +27,6 @@
                 </div>
             </div>
         </div>
-
-
 
         <nav class="nav nav-tabs"></nav>
 
@@ -58,6 +62,11 @@
             </div>
             <div class="col-md-4">
                 <h2>Spécificités</h2>
+                <ul class="list-group">
+                    {% for tag in property.tags %}
+                        <li class="list-group-item">{{ tag.name }}</li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
 
