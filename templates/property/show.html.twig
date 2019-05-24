@@ -7,6 +7,11 @@
     <div class="container">
 
         <div class="jumbotron">
+
+            {% if not form.vars.valid %}
+                <div class="alert alert-danger">Erreur formulaire</div>
+            {% endif %}
+
             <div class="row">
                 <div class="col-md-8">
                     {% if property.filename %}
@@ -23,7 +28,23 @@
                     <div class="text-primary" style="font-weight: bold; font-size: 4rem">
                         {{ property.formattedPrice }}
                     </div>
-                    <a href="#" class="btn btn-primary">Contacter l'agence</a>
+                    <a href="#" class="btn btn-primary" id="contactButton" {% if form.vars.submitted %}style="display: none"{% endif %}>Contacter l'agence</a>
+                    <div id="contactForm" class="mt-4" {% if not form.vars.submitted %}style="display: none"{% endif %}>
+                        {{ form_start(form) }}
+                        <div class="row">
+                            <div class="col">{{ form_row(form.firstname) }}</div>
+                            <div class="col">{{ form_row(form.lastname) }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col">{{ form_row(form.phone) }}</div>
+                            <div class="col">{{ form_row(form.email) }}</div>
+                        </div>
+                        {{ form_row(form.message) }}
+                        <div class="form-group">
+                            <button class="btn btn-primary">Envoyer</button>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -73,5 +94,14 @@
     </div>
 {% endblock %}
 
-
-
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        let contactButton = $('#contactButton');
+        contactButton.click('on', function (e) {
+            e.preventDefault();
+            $('#contactForm').slideDown();
+            contactButton.slideUp();
+        })
+    </script>
+{% endblock %}

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<h1>Demande de contact {{ contact.property.title }}</h1>
+
+<table>
+    <tr>
+        <td>Nom du bien : </td>
+        <td><a href="{{ url('property_show', {'slug': contact.property.slug}) }}">{{ contact.property.title }}</a></td>
+    </tr>
+    <tr>
+        <td>Prénom : </td>
+        <td>{{ contact.firstname }}</td>
+    </tr>
+    <tr>
+        <td>Nom : </td>
+        <td>{{ contact.lastname }}</td>
+    </tr>
+    <tr>
+        <td>Téléphone : </td>
+        <td>{{ contact.phone }}</td>
+    </tr>
+    <tr>
+        <td>Email : </td>
+        <td>{{ contact.email }}</td>
+    </tr>
+    <tr>
+        <td>Message : </td>
+        <td>{{ contact.message }}</td>
+    </tr>
+</table>
+
+</body>
+</html>
