@@ -1,4 +1,4 @@
-public/images/properties/
+/public/media/properties/
 
 ###> symfony/framework-bundle ###
 /.env.local

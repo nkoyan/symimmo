@@ -14,3 +14,4 @@ label.sold: vendu
 property.new.success: Bien créé avec succès
 property.edit.success: Bien édité avec succès
 property.delete.success: Bien supprimé avec succès
+image.delete.success: Image supprimée avec succès

@@ -6,10 +6,11 @@ liip_imagine:
         thumb:
             quality: 75
             filters:
+                upscale:
+                    min: [360,230]
                 thumbnail:
                     size: [360,230]
                     mode: outbound
-                    allow_upscale: true
         medium:
             quality: 75
             filters:

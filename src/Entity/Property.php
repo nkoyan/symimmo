@@ -8,15 +8,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PropertyRepository")
  * @UniqueEntity(fields={"title"}, message="property.title.non_unique")
- * @Vich\Uploadable()
  */
 class Property
 {
@@ -35,17 +31,6 @@ class Property
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    /**
-     * @Assert\Image()
-     * @Vich\UploadableField(mapping="property_image", fileNameProperty="filename")
-     */
-    private $imageFile;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $filename;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
@@ -131,9 +116,22 @@ class Property
      */
     private $tags;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Picture", mappedBy="property", cascade={"persist"}, orphanRemoval=true)
+     */
+    private $pictures;
+
+    /**
+     * @Assert\All({
+     *     @Assert\Image()
+     * })
+     */
+    private $pictureFiles;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
+        $this->pictures = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -326,31 +324,62 @@ class Property
         return $this;
     }
 
-    public function getImageFile(): ?File
+    /**
+     * @return Collection|Picture[]
+     */
+    public function getPictures(): Collection
     {
-        return $this->imageFile;
+        return $this->pictures;
     }
 
-    public function setImageFile(?File $imageFile = null): self
+    public function addPicture(Picture $picture): self
     {
-        $this->imageFile = $imageFile;
-
-        if ($imageFile) {
-            $this->updatedAt = new \DateTime();
+        if (!$this->pictures->contains($picture)) {
+            $this->pictures[] = $picture;
+            $picture->setProperty($this);
         }
 
         return $this;
     }
 
-    public function getFilename(): ?string
+    public function removePicture(Picture $picture): self
     {
-        return $this->filename;
-    }
-
-    public function setFilename(?string $filename)
-    {
-        $this->filename = $filename;
+        if ($this->pictures->contains($picture)) {
+            $this->pictures->removeElement($picture);
+            // set the owning side to null (unless already changed)
+            if ($picture->getProperty() === $this) {
+                $picture->setProperty(null);
+            }
+        }
 
         return $this;
     }
+
+    public function getPictureFiles()
+    {
+        return $this->pictureFiles;
+    }
+
+    public function getPicture(): ?Picture
+    {
+        if ($this->pictures->isEmpty()) {
+            return null;
+        }
+
+        return $this->pictures->first();
+    }
+
+    public function setPictureFiles($pictureFiles)
+    {
+        foreach ($pictureFiles as $pictureFile) {
+            $picture = new Picture();
+            $picture->setImageFile($pictureFile);
+            $this->addPicture($picture);
+        }
+
+        $this->pictureFiles = $pictureFiles;
+        return $this;
+    }
+
+
 }

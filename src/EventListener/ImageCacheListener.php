@@ -2,10 +2,10 @@
 
 namespace App\EventListener;
 
-use App\Entity\Property;
+use App\Entity\Picture;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
-use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 class ImageCacheListener
@@ -40,10 +40,12 @@ class ImageCacheListener
     {
         $entity = $args->getObject();
 
-        if (!$entity instanceof Property) {
+        if (!$entity instanceof Picture) {
             return;
         }
 
-        $this->cacheManager->remove($this->uploaderHelper->asset($entity, 'imageFile'));
+        if ($entity->getImageFile() instanceof UploadedFile) {
+            $this->cacheManager->remove($this->uploaderHelper->asset($entity, 'imageFile'));
+        }
     }
 }
