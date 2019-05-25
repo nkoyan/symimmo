@@ -6,6 +6,7 @@ use App\Entity\Property;
 use App\Form\PropertyType;
 use App\Repository\PropertyRepository;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -70,12 +71,13 @@ class AdminPropertyController extends AbstractController
     /**
      * @Route("/admin/property/{id}", name="admin_property_delete", methods={"DELETE"})
      */
-    public function delete(Property $property, Request $request, ObjectManager $manager)
+    public function delete(Property $property, Request $request, EntityManagerInterface $manager)
     {
         if ($this->isCsrfTokenValid('delete' . $property->getId(), $request->request->get('token'))) {
             $manager->remove($property);
             $manager->flush();
             $this->addFlash('success', 'property.delete.success');
+            //$manager->getConfiguration()->getResultCacheImpl()->delete('findLatestPaginated');
         }
 
         return $this->redirectToRoute('admin_property_index');

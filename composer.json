@@ -6,7 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
-        "beberlei/DoctrineExtensions": "^1.2",
+        "beberlei/doctrineextensions": "^1.2",
         "cocur/slugify": "^3.2",
         "knplabs/knp-paginator-bundle": "^3.0",
         "liip/imagine-bundle": "^2.1",
@@ -31,7 +31,8 @@
         "symfony/web-link": "4.2.*",
         "symfony/webpack-encore-bundle": "^1.5",
         "symfony/yaml": "4.2.*",
-        "vich/uploader-bundle": "^1.9"
+        "vich/uploader-bundle": "^1.9",
+        "white-october/pagerfanta-bundle": "^1.2"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.1",

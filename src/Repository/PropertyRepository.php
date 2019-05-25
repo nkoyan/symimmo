@@ -7,6 +7,7 @@ use App\Entity\PropertySearch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -34,15 +35,15 @@ class PropertyRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    /**
-     * @return Property[]
-     */
     public function findLatest(int $amount)
     {
-        return $this->findVisibleQueryBuilder()
+        $query = $this->findVisibleQueryBuilder()
+            ->leftJoin('p.pictures', 'pics')
+            ->select('p', 'pics')
             ->setMaxResults($amount)
-            ->getQuery()
-            ->getResult();
+            ->getQuery();
+
+        return new Paginator($query);
     }
 
     public function findLatestPaginated(PropertySearch $search, int $page = 1)
@@ -76,7 +77,6 @@ class PropertyRepository extends ServiceEntityRepository
 
         if ($search->getLat() && $search->getLng() && $search->getDistance()) {
             $query = $query
-                ->select('p')
                 ->andWhere('(6353 * 2 * ASIN(SQRT(POWER(SIN((p.lat - :lat) * pi()/180 / 2), 2) +COS(p.lat * 
                 pi()/180) * COS(:lat * pi()/180) * POWER(SIN((p.lng - :lng) * pi()/180 / 2), 2) ))) <= :distance')
                 ->setParameter('lat', $search->getLat())
@@ -84,8 +84,16 @@ class PropertyRepository extends ServiceEntityRepository
                 ->setParameter('distance', $search->getDistance());
         }
 
+        $query = $query
+            ->leftJoin('p.pictures', 'pics')
+            ->select('p', 'pics')
+            ->getQuery()
+            //->useResultCache(true, 3600, 'findLatestPaginated')
+        ;
+
+
         return $this->createPaginator(
-            $query->getQuery(),
+            $query,
             $page
         );
     }

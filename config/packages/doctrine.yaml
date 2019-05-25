@@ -34,3 +34,6 @@ doctrine:
                 SIN: DoctrineExtensions\Query\Mysql\Sin
                 PI: DoctrineExtensions\Query\Mysql\Pi
                 COS: DoctrineExtensions\Query\Mysql\Cos
+        metadata_cache_driver: apcu
+        query_cache_driver: apcu
+        result_cache_driver: apcu
