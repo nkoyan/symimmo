@@ -17,6 +17,14 @@ class PropertySearch
 
     private $tags;
 
+    private $distance;
+
+    private $lat;
+
+    private $lng;
+
+    private $address;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
@@ -56,4 +64,54 @@ class PropertySearch
     {
         $this->tags = $tags;
     }
+
+    public function getDistance(): ?int
+    {
+        return $this->distance;
+    }
+
+    public function setDistance(int $distance)
+    {
+        $this->distance = $distance;
+
+        return $this;
+    }
+
+    public function getLat(): ?float
+    {
+        return $this->lat;
+    }
+
+    public function setLat(float $lat)
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    public function getLng(): ?float
+    {
+        return $this->lng;
+    }
+
+    public function setLng(float $lng)
+    {
+        $this->lng = $lng;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(string $address)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+
 }

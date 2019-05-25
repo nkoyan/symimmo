@@ -9,4 +9,3 @@ global.$ = global.jQuery = $;
 import 'popper.js'
 import 'bootstrap'
 import 'select2'
-import 'axios'

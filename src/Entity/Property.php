@@ -128,6 +128,16 @@ class Property
      */
     private $pictureFiles;
 
+    /**
+     * @ORM\Column(type="float", scale=6, precision=9)
+     */
+    private $lat;
+
+    /**
+     * @ORM\Column(type="float", scale=6, precision=9)
+     */
+    private $lng;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
@@ -378,6 +388,30 @@ class Property
         }
 
         $this->pictureFiles = $pictureFiles;
+        return $this;
+    }
+
+    public function getLat(): ?float
+    {
+        return $this->lat;
+    }
+
+    public function setLat(float $lat): self
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    public function getLng(): ?float
+    {
+        return $this->lng;
+    }
+
+    public function setLng(float $lng): self
+    {
+        $this->lng = $lng;
+
         return $this;
     }
 
