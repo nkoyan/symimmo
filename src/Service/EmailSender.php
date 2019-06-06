@@ -3,29 +3,28 @@
 namespace App\Service;
 
 use App\Entity\Contact;
-use Twig\Environment;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\MailerInterface;
 
 class EmailSender
 {
     private $mailer;
-    private $twig;
 
-    public function __construct(\Swift_Mailer $mailer, Environment $twig)
+    public function __construct(MailerInterface $mailer)
     {
         $this->mailer = $mailer;
-        $this->twig = $twig;
     }
 
     public function send(Contact $contact)
     {
-        $message = (new \Swift_Message('Agence : ' . $contact->getProperty()->getTitle()))
-            ->setFrom('noreply@agence.fr')
-            ->setTo('contact@agence.fr')
-            ->setReplyTo($contact->getEmail())
-            ->setBody($this->twig->render('email/contact.html.twig', [
-                'contact' => $contact
-            ]), 'text/html');
+        $email = (new TemplatedEmail())
+            ->from('noreply@agence.fr')
+            ->to('contact@agence.fr')
+            ->replyTo($contact->getEmail())
+            ->subject('Agence : ' . $contact->getProperty()->getTitle())
+            ->htmlTemplate('email/contact.html.twig')
+            ->context(['contact' => $contact]);
 
-        $this->mailer->send($message);
+        $this->mailer->send($email);
     }
 }

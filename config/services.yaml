@@ -31,3 +31,6 @@ services:
         tags:
             - { name: doctrine.event_listener, event: preUpdate }
             - { name: doctrine.event_listener, event: preRemove }
+
+    Symfony\Component\Mailer\MailerInterface:
+        class: Symfony\Component\Mailer\Mailer
