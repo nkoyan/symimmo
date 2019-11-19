@@ -6,16 +6,12 @@ liip_imagine:
         thumb:
             quality: 75
             filters:
-                upscale:
-                    min: [360,230]
-                thumbnail:
-                    size: [360,230]
-                    mode: outbound
+                fixed:
+                    width: 360
+                    height: 230
         medium:
             quality: 75
             filters:
-                upscale:
-                    min: [800,530]
-                thumbnail:
-                    size: [800,530]
-                    mode: outbound
+                fixed:
+                    width: 800
+                    height: 530
